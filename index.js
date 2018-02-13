@@ -21,26 +21,57 @@ const gSecret = process.env.GOOGLE_API_SECRET;
 const scopes = 'read_customers, read_orders';
 
 //the url
-const forwardingAddress = "https://95f06b4b.ngrok.io"; // Replace this with your HTTPS Forwarding address
+const forwardingAddress = "https://aa503487.ngrok.io"; // Replace this with your HTTPS Forwarding address
 var token = "";
   
 app.get('/', (req, res) => {
   //TODO: get access token from cookie
   //pass access token through shop data
-  shop_data();
   console.log('DATE 0: ' + req.param('date'));
   console.log('DATE 1: ' + req.param('date1'));
   console.log("shopify data query");
   console.log(token);
   console.log(req.param('date'));
   console.log(req.param('date1'));
+  var date = req.param('date');
+  var date1 = req.param('date1');
+  
+  function x_days_Ago(X){
+      var date = new Date(Date.now() + -1*X*24*3600*1000);
+      var dd = date.getDate();
+      var mm = date.getMonth()+1;
+      var yyyy = date.getFullYear();
+      
+      if (dd < 10) {
+          dd = '0' + dd;
+      }
+      if (mm < 10) {
+          mm = '0' + mm;
+      }
+      date = yyyy + '-' + mm + '-' + dd ;
+      return date;
+  }
+  
+  //if no max date selected, set to current date
+  if (date == ''){
+      date = x_days_ago(0);
+      console.log('current date: ' + date);
+  } 
+  
+  //if no min date selected, set to 30 days ago
+  if (date1 ==''){
+      date1 = x_days_Ago(30);
+      console.log('30 days ago: ' + date1);
+  }
+  
+  shop_data();
   function shop_data() {
     var order_url = 'https://test948913570914.myshopify.com/admin/orders.json';
     const shopRequestHeaders = {
             'X-Shopify-Access-Token': token
     };
 
-    order_url = order_url + '?created_at_max=' + req.param('date');
+    order_url = order_url + '?created_at_max=' + date + 't00:00:00-00:00&created_at_min=' + date1 + 't00:00:00-00:00';
     console.log(order_url);
     request.get(order_url, { headers: shopRequestHeaders })
         .then((shopResponse) => {

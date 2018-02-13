@@ -53,10 +53,10 @@
 <link rel="stylesheet" href="https://ga-dev-tools.appspot.com/public/css/chartjs-visualizations.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     
-    <form action="https://95f06b4b.ngrok.io" method="GET">
+    <form action="https://aa503487.ngrok.io" method="GET">
         <input type='date' id='date_sel' oninput='date_update();'>
     </form>
-    <form method="get" action="https://95f06b4b.ngrok.io">
+    <form method="get" action="https://aa503487.ngrok.io">
         <input type='date' id='date_sel1' oninput='date_update();'>
     </form>
     
@@ -96,7 +96,7 @@
     var date1 = document.getElementById("date_sel1").value;
      $.ajax({
     type: "GET",
-    url: 'https://95f06b4b.ngrok.io',
+    url: 'https://aa503487.ngrok.io',
     data: 'date='+date+'&date1='+date1,
     datatype: "html",
     success: function(result){
